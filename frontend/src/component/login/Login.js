@@ -1,7 +1,7 @@
 import React from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { API } from '../../global/global';
+import { API } from '../../global/global.js';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 

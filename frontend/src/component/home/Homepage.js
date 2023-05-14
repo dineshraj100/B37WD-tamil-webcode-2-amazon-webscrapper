@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './Homepage.css';
-import { API } from '../../global/global';
+import { API } from '../../global/global.js';
 function Homepage({ data, mail }) {
   const { email } = useParams();
   const [token, settoken] = useState(null);

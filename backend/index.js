@@ -32,6 +32,6 @@ const PORT = process.env.PORT;
 app.use('/product', productRouter);
 app.use('/user', userRouter);
 
-app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
+app.listen(PORT);
 
 export { jwt, genHashedPassword, client, requested, cheerio, auth, bcrypt };

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import { API } from '../../global/global';
+import { API } from '../../global/global.js';
 import { useNavigate } from 'react-router-dom';
 import './Searchbar.css';
 import SearchIcon from '@mui/icons-material/Search';
