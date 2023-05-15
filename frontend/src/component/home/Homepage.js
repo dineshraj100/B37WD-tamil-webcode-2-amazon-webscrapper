@@ -53,7 +53,18 @@ function ProductHome({ tokenData, data, mail }) {
           </div>
           <div className='homeLogBox'>
             <h5>Web Scraping</h5>
-            <h6>AMAZON.in product details</h6>
+            <h6>flipkart.in product details</h6>
+            <h5>
+              As the flipkart page className change for each category of
+              products and each specific product. i tried getting clear data for
+              common terms like toys, games, posters, grossary etc., if the data
+              for some products not showing then its because of this classname
+              changes for different product in flipkart. you can click the below
+              images to search specific category products. if multiple price
+              values are showing, its because of the different seller for the
+              same product. for search testing you can use any product and test
+              with the above words must.😉
+            </h5>
           </div>
         </div>
       </div>
