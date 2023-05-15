@@ -1,115 +1,76 @@
-import express from 'express'
-import {auth} from '../index.js'
-import request from "request";
-import cheerio from "cheerio";
-let requested = request
-const Router = express.Router()
+import express from 'express';
+import { auth } from '../index.js';
+import request from 'request';
+import cheerio from 'cheerio';
+let requested = request;
+const Router = express.Router();
 
+Router.get('/', auth, async function (request, response) {
+  var res = response;
 
+  requested(
+    'https://www.flipkart.com/search?q=all&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off',
+    async (err, response, html) => {
+      const $ = cheerio.load(html);
 
-Router.get('/',auth,async function(request,response){
-    
-    
+      const array = [];
+      $('._4ddWXP').each(async (i, ell) => {
+        const image = $(ell).find('img').attr('src');
 
-    var res = response
+        const title = $(ell).find('.s1Q9rs').text();
 
-    requested('https://www.amazon.in/s?k=all&crid=3KH4GE89Z7E0Q&sprefix=%2Caps%2C484&ref=nb_sb_ss_recent_1_0_recent',async(err,response,html)=>{
+        const rating = $(ell).find('._3LWZlK').text();
 
-    const $= cheerio.load(html)
+        const price = $(ell).find('._3I9_wc').text();
 
-    const array = []
-    $('.sg-col-4-of-20') 
-    .each(async(i,ell)=>{
-        const image = $(ell)
-        .find('img')
-        .attr('src')
+        const offerPrice = $(ell).find('._30jeq3').text();
 
-        const title= $(ell)
-        .find('.a-text-normal')
-        .text()
+        await array.push({
+          image,
+          title,
+          rating,
+          price,
+          offerPrice,
+        });
+      });
+      res.send(array);
+    }
+  );
+});
 
-        const rating = $(ell)
-        .find('.a-icon-alt')
-        .text()
+Router.get('/:name', auth, async function (request, response) {
+  const { name } = request.params;
 
-        const price = $(ell)
-        .find('.a-price-whole')
-        .text()
+  let res = response;
 
-        const offerPrice = $(ell)
-        .find('.a-offscreen')
-        .text()
+  const searchedData = [];
 
-       await array.push({
-            image,
-            title,
-            rating,
-            price,
-            offerPrice
-        })
-        
-        
-    })
- res.send(array)
-    
-})
+  requested(
+    `https://www.flipkart.com/search?q=${name}&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off`,
+    async (err, response, html) => {
+      const $ = cheerio.load(html);
 
+      $('._13oc-S').each(async (i, ell) => {
+        const image = $(ell).find('img').attr('src');
 
+        const title = $(ell).find('.s1Q9rs').text();
 
-})
+        const rating = $(ell).find('._3LWZlK').text();
 
-Router.get("/:name",auth,async function(request,response){
- const {name}=request.params
+        const price = $(ell).find('._3I9_wc').text();
 
- let res = response
-
- const searchedData = []
-
- requested(`https://www.amazon.in/s?k=${name}&crid=3KH4GE89Z7E0Q&sprefix=%2Caps%2C484&ref=nb_sb_ss_recent_1_0_recent`,async(err,response,html)=>{
-   
-     const $= cheerio.load(html)
- 
- 
- 
-     $('.sg-col-4-of-20') 
-     .each(async(i,ell)=>{
-         const image = $(ell)
-         .find('img')
-         .attr('src')
- 
-         const title= $(ell)
-         .find('.a-text-normal')
-         .text()
- 
-         const rating = $(ell)
-         .find('.a-icon-alt')
-         .text()
- 
-         const price = $(ell)
-         .find('.a-price-whole')
-         .text()
- 
-         const offerPrice = $(ell)
-         .find('.a-offscreen')
-         .text()
- 
+        const offerPrice = $(ell).find('._30jeq3').text();
         await searchedData.push({
-             image,
-             title,
-             rating,
-             price,
-             offerPrice
-         })
-         
-        
-     })
-     res.send(searchedData)
- })
+          image,
+          title,
+          rating,
+          price,
+          offerPrice,
+        });
+      });
+      res.send(searchedData);
+    }
+  );
+});
 
-
-
-})
-
-export default Router
-
-
+export default Router;
